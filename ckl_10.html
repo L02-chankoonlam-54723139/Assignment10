@@ -1,0 +1,64 @@
+<html>
+
+<head>
+   <meta charset="UTF-8">
+   <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/addons/p5.sound.js"></script>
+   <script>
+       var sound, amplitude;
+       var arrSizes = [];
+       function preload() {
+           sound = loadSound('Swimmey Texture.mp3');
+       }
+       function setup() {
+           createCanvas(300, 300);
+           amplitude = new p5.Amplitude();
+           amplitude.setInput(sound);
+           arrSizes = [10, 30, 60, 8, 14, 27];
+       }
+       function mouseClicked() {
+           if (sound.isPlaying()) {
+               sound.stop();
+           } else {
+               sound.play();
+           }
+       }
+       function draw() {
+           background(0);
+           var level = amplitude.getLevel();
+           var size = map(level, 0, 1, 0, 200);
+           strokeWeight(3);
+           stroke(255);
+           rectMode(CENTER); // Set rectMode to CENTE
+           rect(width / 2, height / 2, size * 2, size * 2);
+           strokeWeight(50);
+           stroke(255);
+           ellipse(width / 2, height / 2, size, size);
+           noStroke();
+           rectMode(CENTER);
+           rect(50, height / 2, size * 2, size * 2);
+           rect(250, height / 2, size * 2, size * 2);
+           rect(width / 2, 250, size * 2, size * 2);
+           rect(width / 2, 50, size * 2, size * 2);
+           fill(255, 255, 255, 150);
+           strokeWeight(10);
+           stroke(255);
+           ellipse(100, 100, size, size);
+           ellipse(200, 100, size, size);
+           ellipse(100, 200, size, size);
+           ellipse(200, 200, size, size);
+           noFill();
+           strokeWeight(2);
+           rect(width / 2, height / 2, size * 7, size * 7);
+           for (var i = 0; i < arrSizes.length; i++) {
+               var x = random(width);
+               var y = random(height);
+               noStroke();
+               fill(random(255), random(255), random(255));
+               ellipse(x, y, arrSizes[i], arrSizes[i]);
+           }
+       }
+   </script>
+</head>
+
+</html>
