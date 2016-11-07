@@ -1,39 +1,94 @@
- <html>
- <head>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.4/addons/p5.sound.js"></script>
-   <script>
-    
-    // an example using sound (which is not required for this assignment)
+<html>
 
-    var sound;
-    
-    function preload() 
-    {
-      sound = loadSound('pop.mp3');
-    }
-    
-    function setup() 
-    {
-       createCanvas(800, 600);
-       textAlign(CENTER);
-       fill(100);
-       noStroke();
-       text("Click to play sound", width/2, height/2);
-    }
+<head>
+    <meta charset="UTF-8">
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/addons/p5.sound.js"></script>
+    <script>
+        var sound, amplitude;
+        var arrSizes = [];
+        var x = [];
+        var y = [];
+        var letter = [];
 
-    function draw() 
-    {
-     
-    }
-    
-    function mouseClicked() 
-    { 
-       sound.play();
-       background(random(255), random(255), random(255));
-    }
+        function preload() {
+            sound = loadSound('Swimmey Texture.mp3');
+        }
 
-   </script>
- </head>
- </html>
+        function setup() {
+            createCanvas(300, 300);
+            amplitude = new p5.Amplitude();
+            amplitude.setInput(sound);
+            arrSizes = [10, 30, 60, 8, 14, 27];
+            for (var i = 0; i < 100; i++) {
+                x[i] = random(width);
+                y[i] = random(height);
+                letter[i] = String.fromCharCode(65 + int(random(26))); // random letter           
+            }
+        }
 
+        function mouseClicked() {
+            if (sound.isPlaying()) {
+                sound.stop();
+            } else {
+                sound.play();
+            }
+
+        }
+
+        function draw() {
+            background(255);
+            TexTs();
+            var level = amplitude.getLevel();
+            var size = map(level, 0, 1, 0, 200);
+
+
+            strokeWeight(3);
+            stroke(0);
+            rectMode(CENTER); // Set rectMode to CENTE
+            rect(width / 2, height / 2, size * 2, size * 2);
+            strokeWeight(50);
+
+            noStroke();
+            rectMode(CENTER);
+            rect(50, 50, size * 2, size * 2);
+            rect(250, 250, size * 2, size * 2);
+            rect(50, 250, size * 2, size * 2);
+            rect(250, 50, size * 2, size * 2);
+            fill(255, 255, 255, 150);
+            strokeWeight(10);
+            stroke(0);
+            ellipse(100, 100, size, size);
+            ellipse(200, 100, size, size);
+            ellipse(100, 200, size, size);
+            ellipse(200, 200, size, size);
+
+            ellipse(50, 150, size, size);
+            ellipse(150, 50, size, size);
+            ellipse(150, 250, size, size);
+            ellipse(250, 150, size, size);
+            noFill();
+            strokeWeight(2);
+            rect(width / 2, height / 2, size * 7, size * 7);
+            for (var i = 0; i < arrSizes.length; i++) {
+                var x = random(width);
+                var y = random(height);
+                noStroke();
+                fill(random(255), random(255), random(255));
+                ellipse(x, y, arrSizes[i], arrSizes[i]);
+            }
+
+        }
+
+        function TexTs() {
+            for (var i = 0; i < 100; i++) {
+                x[i] += random(-1, 1);
+                y[i] += random(-1, 1);
+                fill(5);
+                text(letter[i], x[i], y[i]);
+            }
+        }
+    </script>
+</head>
+
+</html>
